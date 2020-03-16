@@ -1,0 +1,246 @@
+clear screen;
+
+--
+-- clean up 
+--
+
+drop table BookReviewer cascade constraints purge;
+drop sequence BookReviewerId_Seq;
+drop table BookReview cascade constraints purge;
+drop sequence BookReviewId_Seq;
+drop table BooksBookReview cascade constraints purge;
+drop sequence BooksBookReviewId_Seq;
+
+--
+-- Create tables
+--
+
+create table
+BookReviewer (
+	BookReviewerId number
+	, FirstName varchar2(15)
+	, LastName varchar2(15)
+	, email varchar2(30)
+	, constraint BookReviewer_Pk primary key (BookReviewerId)
+);
+
+create sequence
+BookReviewerId_Seq
+start with 0
+minvalue 0
+;
+
+create table
+BookReview (
+	BookReviewId number
+	, ReviewDate date
+	, StarRating number
+	, ReviewComments varchar2(75)
+	, BookReviewerId number
+	, constraint BookReviewId_Pk primary key (BookReviewId)
+);
+
+create sequence
+BookReviewId_Seq
+start with 0
+minvalue 0
+;
+
+create table
+BooksBookReview (
+	BooksBookReviewId number
+	, ISBN varchar2(10)
+	, BookReviewId number
+	, constraint BooksBookReviewId_Pk primary key (BooksBookReviewId)
+);
+
+create sequence
+BooksBookReviewId_Seq
+start with 0
+minvalue 0
+;
+
+--
+-- Create constraints
+--
+
+alter table
+BookReview
+add constraint BookReview_BookReviewer_Fk foreign key (BookReviewerId) references BookReviewer(BookReviewerId)
+;
+		
+alter table
+BooksBookReview
+add constraint BooksBookReview_Books_Fk foreign key (ISBN) references Books(ISBN)
+;
+
+alter table
+BooksBookReview
+add constraint BooksBookReview_BookReview_Fk foreign key (BookReviewId) references BookReview(BookReviewId)
+;
+
+--
+-- Insert sample data
+--
+
+--
+-- John Maymer data
+--
+
+insert into
+BookReviewer
+values (
+	BookReviewerId_Seq.nextval
+	, 'John'
+	, 'Maymer'
+	, 'oldjohnny@johnmail.com'	
+);
+
+insert into
+BookReview
+values (
+	BookReviewId_Seq.nextval
+	, '20-AUG-1998'
+	, 4
+	, 'A great story through and through minus the slow start.'
+	, BookReviewerId_Seq.currval 
+);
+
+
+insert into
+BooksBookReview
+values (
+	BooksBookReviewId_Seq.nextval
+	, '2491748320'
+	, BookReviewId_Seq.currval
+);
+
+insert into
+BookReview
+values (
+	BookReviewId_Seq.nextval
+	, '12-SEP-2005'
+	, 2
+	, 'A fine story, nothing too exciting, though.'
+	, BookReviewerId_Seq.currval 
+);
+
+insert into
+BooksBookReview
+values (
+	BooksBookReviewId_Seq.nextval
+	, '3957136468'
+	, BookReviewId_Seq.currval
+);
+
+--
+-- Sammie Eauck
+--
+
+insert into
+BookReviewer
+values (
+	BookReviewerId_Seq.nextval
+	, 'Sammie'
+	, 'Eauck'
+	, 'sammie@samail.com'	
+);
+
+insert into
+BookReview
+values (
+	BookReviewId_Seq.nextval
+	, '02-MAR-2015'
+	, 5
+	, 'This is the greatest thing I have ever read.'
+	, BookReviewerId_Seq.currval 
+);
+
+insert into
+BooksBookReview
+values (
+	BooksBookReviewId_Seq.nextval
+	, '4981341710'
+	, BookReviewId_Seq.currval
+);
+
+insert into
+BooksBookReview
+values (
+	BooksBookReviewId_Seq.nextval
+	, '8117949391'
+	, BookReviewId_Seq.currval
+);
+
+insert into
+BooksBookReview
+values (
+	BooksBookReviewId_Seq.nextval
+	, '2491748320'
+	, BookReviewId_Seq.currval
+);
+
+insert into
+BooksBookReview
+values (
+	BooksBookReviewId_Seq.nextval
+	, '3437212490'
+	, BookReviewId_Seq.currval
+);
+
+--
+-- Keith Urban
+--
+
+insert into
+BookReviewer
+values (
+	BookReviewerId_Seq.nextval
+	, 'Keith'
+	, 'Urban'
+	, 'the_real_keith@email.com'	
+);
+
+insert into
+BookReview
+values (
+	BookReviewId_Seq.nextval
+	, '10-AUG-1998'
+	, 2
+	, 'Eh.'
+	, BookReviewerId_Seq.currval 
+);
+
+insert into
+BookReview
+values (
+	BookReviewId_Seq.nextval
+	, '02-DEC-2018'
+	, 5
+	, 'I changed my mind, this is great.'
+	, BookReviewerId_Seq.currval 
+);
+
+
+insert into
+BooksBookReview
+values (
+	BooksBookReviewId_Seq.nextval
+	, '2491748320'
+	, BookReviewId_Seq.currval
+);
+
+insert into
+BooksBookReview
+values (
+	BooksBookReviewId_Seq.nextval
+	, '2491748320'
+	, BookReviewId_Seq.currval
+);
+
+--------------------------------------
+
+select * from Books;
+select * from BooksBookReview;
+select * from BookReview;
+select * from BookReviewer;
